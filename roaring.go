@@ -8,6 +8,7 @@ package roaring
 import (
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"strconv"
@@ -1409,4 +1410,25 @@ func (rb *Bitmap) Stats() Statistics {
 		}
 	}
 	return stats
+}
+
+// support json.Marshal
+func (rb *Bitmap) MarshalJSON()([]byte,error) {
+	return json.Marshal(rb.ToArray())
+}
+
+// support json.UnMarshal
+func (rb *Bitmap) UnmarshalJSON(value []byte) error {
+	var array []uint32
+
+	err := json.Unmarshal(value, &array)
+	if err != nil {
+		return err
+	}
+
+	for _,val := range array{
+		rb.Add(val)
+	}
+
+	return nil
 }
