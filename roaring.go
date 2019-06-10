@@ -154,6 +154,16 @@ func (rb *Bitmap) ToArray() []uint32 {
 	return array
 }
 
+// ToArray creates a new slice containing all of the integers stored in the Bitmap in sorted order
+func (rb *Bitmap) ToArrayInt() []int {
+	var array = rb.ToArray()
+	var arrayInt = make([]int, len(array))
+	for _,id := range array{
+		arrayInt = append(arrayInt, int(id))
+	}
+	return arrayInt
+}
+
 // GetSizeInBytes estimates the memory usage of the Bitmap. Note that this
 // might differ slightly from the amount of bytes required for persistent storage
 func (rb *Bitmap) GetSizeInBytes() uint64 {
