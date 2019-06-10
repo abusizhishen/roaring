@@ -157,7 +157,7 @@ func (rb *Bitmap) ToArray() []uint32 {
 // ToArray creates a new slice containing all of the integers stored in the Bitmap in sorted order
 func (rb *Bitmap) ToArrayInt() []int {
 	var array = rb.ToArray()
-	var arrayInt = make([]int, len(array))
+	var arrayInt = make([]int,0, len(array))
 	for _,id := range array{
 		arrayInt = append(arrayInt, int(id))
 	}
