@@ -1140,6 +1140,16 @@ func (rb *Bitmap) AddMany(dat []uint32) {
 	}
 }
 
+// AddMany add all of the values in dat
+func (rb *Bitmap) AddManyInt(dat []int) {
+	var ids = make([]uint32, 0,len(dat))
+	for _,id := range dat{
+		ids = append(ids,uint32(id))
+	}
+
+	rb.AddMany(ids)
+}
+
 // BitmapOf generates a new bitmap filled with the specified integers
 func BitmapOf(dat ...uint32) *Bitmap {
 	ans := NewBitmap()
