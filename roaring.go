@@ -1432,23 +1432,21 @@ func (rb *Bitmap) Stats() Statistics {
 	return stats
 }
 
-// support json.Marshal
+//support json.Marshal
 func (rb *Bitmap) MarshalJSON()([]byte,error) {
-	return json.Marshal(rb.ToArray())
+	var b,err = rb.MarshalBinary()
+	if err != nil{
+		return nil,err
+	}
+	return json.Marshal(b)
 }
 
 // support json.UnMarshal
 func (rb *Bitmap) UnmarshalJSON(value []byte) error {
-	var array []uint32
-
-	err := json.Unmarshal(value, &array)
-	if err != nil {
+	var b []byte
+	err := json.Unmarshal(value, &b)
+	if err != nil{
 		return err
 	}
-
-	for _,val := range array{
-		rb.Add(val)
-	}
-
-	return nil
+	return rb.UnmarshalBinary(b)
 }
